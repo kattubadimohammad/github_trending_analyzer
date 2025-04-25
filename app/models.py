@@ -1,4 +1,3 @@
-```python
 from pydantic import BaseModel, Field
 from typing import List
 
@@ -17,4 +16,3 @@ class Edge(BaseModel):
 class GraphData(BaseModel):
     nodes: List[Node] = Field(..., description="List of repository nodes")
     edges: List[Edge] = Field(..., description="List of connections between repositories")
-```
