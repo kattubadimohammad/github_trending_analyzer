@@ -1,4 +1,3 @@
-```python
 import httpx
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
@@ -96,4 +95,3 @@ def calculate_similarity(desc1: str, desc2: str) -> float:
     if total_unique_words == 0:
         return 0.0
     return len(common_words) / total_unique_words
-```
