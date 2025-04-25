@@ -15,6 +15,7 @@ GITHUB_TRENDING_URL = "[https://github.com/trending](https://github.com/trending
 CACHE_TTL = 3600  # 1 hour
 DEFAULT_REPO_LIMIT = 10
 
+
 # --- Models ---
 class Node(BaseModel):
     id: str = Field(..., description="Repository name (owner/repo)")
@@ -23,14 +24,17 @@ class Node(BaseModel):
     forks: int = Field(..., description="Number of forks")
     language: str = Field(..., description="Programming language")
 
+
 class Edge(BaseModel):
     source: str = Field(..., description="Source repository name")
     target: str = Field(..., description="Target repository name")
     weight: float = Field(..., description="Number of shared topics (or semantic similarity)")
 
+
 class GraphData(BaseModel):
     nodes: List[Node] = Field(..., description="List of repository nodes")
     edges: List[Edge] = Field(..., description="List of connections between repositories")
+
 
 # --- FastAPI App ---
 app = FastAPI(
@@ -41,6 +45,7 @@ app = FastAPI(
 
 # --- Cache ---
 cache = TTLCache(maxsize=128, ttl=CACHE_TTL)
+
 
 # --- Helper Functions ---
 async def fetch_github_trending(language: str) -> str:
@@ -61,6 +66,7 @@ async def fetch_github_trending(language: str) -> str:
             raise HTTPException(status_code=e.response.status_code, detail=f"Failed to fetch {url}: {e}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {e}")
+
 
 def extract_repo_data(html_content: str, language: str, repo_limit: int) -> List[Dict]:
     """Extracts repository data from HTML."""
@@ -101,6 +107,7 @@ def extract_repo_data(html_content: str, language: str, repo_limit: int) -> List
             print(f"Error processing repository: {e}")
     return repos
 
+
 async def fetch_repository_topics(repo_name: str) -> List[str]:
     """Fetches repository topics from GitHub."""
     url = f"[https://github.com/](https://github.com/){repo_name}"
@@ -124,11 +131,18 @@ async def fetch_repository_topics(repo_name: str) -> List[str]:
             return []
         except Exception as e:
             print(f"Error processing topics for {repo_name}: {e}")
+            return []
+
+
+def calculate_similarity(text1: str, text2: str) -> float:
+    words1 = set(text1.lower().split())
+    words2 = set(text2.lower().split())
     common_words = words1.intersection(words2)
     total_unique_words = len(words1.union(words2))
     if total_unique_words == 0:
         return 0.0
     return len(common_words) / total_unique_words
+
 
 async def analyze_repositories(language: str, repo_limit: int) -> GraphData:
     """Analyzes trending repositories and returns graph data."""
@@ -156,6 +170,7 @@ async def analyze_repositories(language: str, repo_limit: int) -> GraphData:
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error analyzing repositories: {e}")
+
 
 # --- API Endpoint ---
 @app.get(
@@ -190,11 +205,14 @@ async def get_trending_repos(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {e}")
 
+
 @app.on_event("startup")
 async def startup_event():
     """Startup event."""
     pass
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
