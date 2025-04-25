@@ -1,7 +1,6 @@
 import httpx
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
-from subfolder.utils import calculate_similarity
 
 
 
