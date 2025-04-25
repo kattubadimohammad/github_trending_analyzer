@@ -11,7 +11,7 @@ from cachetools import TTLCache
 from pydantic import BaseModel, Field
 
 # --- Configuration ---
-GITHUB_TRENDING_URL = "[https://github.com/trending](https://github.com/trending)"
+GITHUB_TRENDING_URL = "https://github.com/trending"
 CACHE_TTL = 3600  # 1 hour
 DEFAULT_REPO_LIMIT = 10
 
@@ -110,7 +110,7 @@ def extract_repo_data(html_content: str, language: str, repo_limit: int) -> List
 
 async def fetch_repository_topics(repo_name: str) -> List[str]:
     """Fetches repository topics from GitHub."""
-    url = f"[https://github.com/](https://github.com/){repo_name}"
+    url = f"https://github.com/{repo_name}"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept-Language": "en-US,en;q=0.9",
@@ -170,6 +170,7 @@ async def analyze_repositories(language: str, repo_limit: int) -> GraphData:
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error analyzing repositories: {e}")
+
 
 
 # --- API Endpoint ---
