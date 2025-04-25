@@ -11,7 +11,7 @@ from cachetools import TTLCache
 from pydantic import BaseModel, Field
 
 # --- Configuration ---
-GITHUB_TRENDING_URL = "https://github.com/trending"
+GITHUB_TRENDING_URL = "[https://github.com/trending](https://github.com/trending)"
 CACHE_TTL = 3600  # 1 hour
 DEFAULT_REPO_LIMIT = 10
 
@@ -103,7 +103,7 @@ def extract_repo_data(html_content: str, language: str, repo_limit: int) -> List
 
 async def fetch_repository_topics(repo_name: str) -> List[str]:
     """Fetches repository topics from GitHub."""
-    url = f"https://github.com/{repo_name}"
+    url = f"[https://github.com/](https://github.com/){repo_name}"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept-Language": "en-US,en;q=0.9",
@@ -124,13 +124,6 @@ async def fetch_repository_topics(repo_name: str) -> List[str]:
             return []
         except Exception as e:
             print(f"Error processing topics for {repo_name}: {e}")
-            return []
-    return []
-
-def calculate_similarity(desc1: str, desc2: str) -> float:
-    """Calculates semantic similarity between two descriptions."""
-    words1 = set(desc1.lower().split())
-    words2 = set(desc2.lower().split())
     common_words = words1.intersection(words2)
     total_unique_words = len(words1.union(words2))
     if total_unique_words == 0:
@@ -166,7 +159,7 @@ async def analyze_repositories(language: str, repo_limit: int) -> GraphData:
 
 # --- API Endpoint ---
 @app.get(
-    "https://github-trending-analyzer-service.onrender.com/analyze/github/trending/python",
+    "/analyze/github/trending/{language}",
     response_model=GraphData,
     responses={
         200: {"description": "Successfully analyzed trending repositories."},
