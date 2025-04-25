@@ -1,6 +1,9 @@
 import httpx
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
+from subfolder.utils import calculate_similarity
+
+
 
 async def fetch_github_trending(language: str) -> str:
     """Fetches GitHub trending page HTML."""
