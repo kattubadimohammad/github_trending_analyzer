@@ -166,7 +166,7 @@ async def analyze_repositories(language: str, repo_limit: int) -> GraphData:
 
 # --- API Endpoint ---
 @app.get(
-    "/analyze/github/trending/{language}",
+    "https://github-trending-analyzer-service.onrender.com/analyze/github/trending/python",
     response_model=GraphData,
     responses={
         200: {"description": "Successfully analyzed trending repositories."},
