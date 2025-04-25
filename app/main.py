@@ -201,6 +201,11 @@ async def get_trending_repos(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {e}")
 
+@app.get("/")
+async def root():
+    """Root endpoint."""
+    return {"message": "Welcome to the GitHub Trending Repository Analyzer!"}
+
 @app.on_event("startup")
 async def startup_event():
     """Startup event."""
