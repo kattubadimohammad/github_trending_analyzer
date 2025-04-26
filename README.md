@@ -145,4 +145,3 @@ Designed to visualize and understand relationships between popular repositories.
 ## ⭐ Show Some Love
 
 If you find this project useful, consider starring the repo! ⭐
-```
