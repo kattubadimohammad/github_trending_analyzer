@@ -15,15 +15,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/analyze_trending_repositories")
-async def analyze_trending_repositories():
-    return {"message": "Analyzing trending repositories"}
-
-
 
 # --- Configuration ---
 GITHUB_TRENDING_URL = "https://github.com/trending"
