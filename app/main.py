@@ -1,5 +1,6 @@
 import os
-from typing import Dict, List
+import time
+from typing import Dict, List, Optional
 from urllib.parse import urljoin
 
 import httpx
@@ -9,17 +10,24 @@ from fastapi.responses import JSONResponse
 from cachetools import TTLCache
 from pydantic import BaseModel, Field
 
-# Add these logging imports
+# --- Add logging ---
 import logging
 logging.basicConfig(level=logging.DEBUG)
-
-
-
 
 # --- Configuration ---
 GITHUB_TRENDING_URL = "https://github.com/trending"
 CACHE_TTL = 3600  # 1 hour
 DEFAULT_REPO_LIMIT = 10
+
+# --- FastAPI App ---
+app = FastAPI(
+    title="GitHub Trending Repository Analyzer",
+    description="Fetches and analyzes trending repositories from GitHub, providing data for graph visualization.",
+    version="1.0.0",
+)
+
+# Add other code below as needed...
+
 
 # --- Models ---
 class Node(BaseModel):
