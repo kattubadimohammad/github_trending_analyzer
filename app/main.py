@@ -9,6 +9,11 @@ from fastapi.responses import JSONResponse
 from cachetools import TTLCache
 from pydantic import BaseModel, Field
 
+# Add these logging imports
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+
 
 from fastapi import FastAPI
 
