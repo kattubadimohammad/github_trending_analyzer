@@ -1,6 +1,7 @@
-fastapi
-uvicorn[standard]
-requests
-beautifulsoup4
-cachetools
-httpx
+fastapi==0.95.2
+uvicorn[standard]==0.23.2
+requests==2.31.0
+beautifulsoup4==4.12.2
+cachetools==5.3.1
+httpx==0.24.1
+python-dotenv==1.0.0
