@@ -146,8 +146,3 @@ Designed to visualize and understand relationships between popular repositories.
 
 If you find this project useful, consider starring the repo! ⭐
 ```
-
----
-
-Would you also like a *smaller* version for a short `README.md` (only showing important parts)?  
-Or should I prepare a **badge version** (like "Deployed on Render", "FastAPI", etc.)? 🚀🎯
