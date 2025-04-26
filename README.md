@@ -1,4 +1,17 @@
 # GitHub Trending Repository Analyzer
+
+A FastAPI application that fetches and analyzes trending repositories from GitHub for a specified programming language.
+
+## Setup
+
+1.  Clone the repository.
+2.  Create a virtual environment (optional but recommended):
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Linux/macOS
+    venv\Scripts\activate  # On Windows
+    ```
+3.  Install the dependencies:
     ```bash
     pip install -r requirements.txt
     ```
