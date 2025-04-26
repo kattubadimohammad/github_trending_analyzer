@@ -75,7 +75,7 @@ def extract_repo_data(html_content: str, language: str, repo_limit: int) -> List
             if not repo_name_element:
                 continue
 
-            repo_name = ' '.join(repo_name_element.text.split())
+            repo_name = repo_name_element.text.replace(" ", "").strip()
             description_element = repo_element.find("p", class_="col-8 color-fg-muted my-1")
             description = description_element.text.strip() if description_element else "No description provided."
 
@@ -104,15 +104,26 @@ def extract_repo_data(html_content: str, language: str, repo_limit: int) -> List
     return repos
 
 async def fetch_repository_topics(repo_name: str) -> List[str]:
+    # Construct the URL for the repository
     url = f"https://github.com/{repo_name}"
+    logging.debug(f"Fetching topics for repository: {repo_name}")
+    logging.debug(f"Constructed URL: {url}")
+    
     try:
+        # Fetch HTML content
         html_content = await fetch_html(url)
         soup = BeautifulSoup(html_content, "html.parser")
+        # Parse topics
         topics_elements = soup.find_all("a", class_="topic-tag")
         return [tag.text.strip() for tag in topics_elements]
+    except httpx.RequestError as e:
+        logging.error(f"Error fetching topics for {repo_name}: {e}")
+        return []  # Return an empty list if fetching fails
     except Exception as e:
-        print(f"Error fetching topics for {repo_name}: {e}")
-        return []
+        logging.error(f"Unexpected error processing {repo_name}: {e}")
+        return []  # Handle unexpected errors gracefully
+
+
 
 async def fetch_all_topics_parallel(repos_data: List[Dict]) -> Dict[str, List[str]]:
     """Fetch topics for all repositories concurrently."""
