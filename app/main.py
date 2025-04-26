@@ -75,7 +75,7 @@ def extract_repo_data(html_content: str, language: str, repo_limit: int) -> List
             if not repo_name_element:
                 continue
 
-            repo_name = repo_name_element.text.strip()
+            repo_name = ' '.join(repo_name_element.text.split())
             description_element = repo_element.find("p", class_="col-8 color-fg-muted my-1")
             description = description_element.text.strip() if description_element else "No description provided."
 
